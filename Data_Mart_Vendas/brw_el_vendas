@@ -1,3 +1,4 @@
+from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName("Spark and Hive")\
                                 .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")\
                                 .config("spark.speculation", "false").config("hive.exec.dynamic.partition", "true")\
