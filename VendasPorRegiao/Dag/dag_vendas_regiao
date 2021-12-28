@@ -1,0 +1,144 @@
+import airflow
+import boto3
+import os
+
+from airflow import DAG
+from datetime import datetime, timedelta
+from airflow.operators.dummy_operator import DummyOperator
+from airflow.operators.python_operator import PythonOperator
+from airflow.operators.postgres_operator import PostgresOperator
+from airflow.operators.dagrun_operator import TriggerDagRunOperator
+from airflow.hooks.S3_hook import S3Hook
+from airflow.hooks.postgres_hook import PostgresHook
+from tempfile import NamedTemporaryFile
+from airflow.models import Connection
+from airflow.utils.db import provide_session
+from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
+from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
+from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
+from airflow.models import Variable
+from airflow.utils.dates import days_ago
+from airflow.contrib.operators.databricks_operator import DatabricksRunNowOperator
+from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunOperator
+from airflow.utils.trigger_rule import TriggerRule
+
+args = {
+    'owner': 'airflow',
+    'email': ['airflow@example.com'],
+    'depends_on_past': False,
+    'start_date': airflow.utils.dates.days_ago(2)
+}
+
+
+# trigger workflow daily at 04:30 am
+with DAG(dag_id='dag_fa_repasse_operacional',concurrency=25, default_args=args, start_date=airflow.utils.dates.days_ago(1), schedule_interval='30 9 * * *', tags=['databricks']) as dag:
+
+    new_cluster = {
+       'name':'dataengineeringe',  
+       'timeout_seconds': 3600,
+       'max_concurrent_runs': 1,
+       'spark_version': '8.3.x-scala2.12',
+       'node_type_id': 'r5d.xlarge',
+       'driver_node_type_id': "r5d.xlarge",
+       'aws_attributes': {
+             'first_on_demand': 1,
+             'availability': 'SPOT',
+             'zone_id': 'us-east-2c',
+             'instance_profile_arn': 'arn:aws:iam::44437312:instance-profile/acess-full',
+             'spot_bid_price_percent': 100,
+             'ebs_volume_count': 0
+        },
+        'num_workers': 1,
+        'autoscale': {
+            'min_workers': 1,
+            'max_workers': 20
+        },
+        'custom_tags': {
+            'TeamName': 'DataEngineering'
+        },
+        'spark_conf': {
+            'hive.metastore.schema.verification.record.version': 'TRUE',
+            'spark.databricks.repl.allowedLanguages': 'sql,python,r',
+            'spark.databricks.delta.preview.enabled': 'TRUE'
+        },
+        'libraries': [{'jar': 's3://etl_vendas_regiao/sqoop/libs/ojdbc6.jar'}],
+        'spark_env_vars': {'PYSPARK_PYTHON':'/databricks/python3/bin/python3'  } ,
+        'init_scripts': [
+        {
+            's3': {
+                'destination': 's3://etl_vendas_regiao/databricks/bootstrap/install_libs.sh',
+                'region': 'us-east-2'
+            }
+        }
+    ]                   
+    } 
+
+#etl 
+    cria_db_bronze_silver_gold = DatabricksSubmitRunOperator(
+            task_id='cria_db_bronze_silver_gold',
+            new_cluster=new_cluster,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/cria_db_bronze_silver_gold.py"})        
+           
+    bronze_di_produto = DatabricksSubmitRunOperator(
+            task_id='bronze_di_produto',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/bronze_di_produto.py"})        
+ 
+    bronze_di_regiao = DatabricksSubmitRunOperator(
+            task_id='bronze_di_regiao',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/bronze_di_regiao.py"})        
+   
+    bronze_fa_venda = DatabricksSubmitRunOperator(
+            task_id='bronze_fa_venda',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/bronze_fa_venda.py"})        
+
+   silver_di_produto = DatabricksSubmitRunOperator(
+            task_id='silver_di_produto',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/silver_di_produto.py"})        
+ 
+    silver_di_regiao = DatabricksSubmitRunOperator(
+            task_id='silver_di_regiao',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/silver_di_regiao.py"})        
+   
+    silver_fa_venda = DatabricksSubmitRunOperator(
+            task_id='silver_fa_venda',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/silver_fa_venda.py"})  
+	
+	gold_di_produto = DatabricksSubmitRunOperator(
+            task_id='gold_di_produto',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/gold_di_produto.py"})        
+ 
+    gold_di_regiao = DatabricksSubmitRunOperator(
+            task_id='gold_di_regiao',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/gold_di_regiao.py"})        
+   
+    gold_fa_venda = DatabricksSubmitRunOperator(
+            task_id='gold_fa_venda',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/gold_fa_venda.py"}) 
+			
+    gold_di_tempo = DatabricksSubmitRunOperator(
+            task_id='gold_di_tempo',
+            new_cluster=new_cluster,
+            trigger_rule=TriggerRule.NONE_SKIPPED,
+            spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/gold_di_tempo.py"})     
+
+ #Fluxo
+	[cria_db_bronze_silver_gold,bronze_di_produto,bronze_di_regiao,bronze_fa_venda,silver_di_produto,silver_di_regiao,silver_fa_venda,\
+	gold_di_tempo,gold_di_produto,gold_di_regiao] >> gold_fa_venda
