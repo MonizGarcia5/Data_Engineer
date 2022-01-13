@@ -140,5 +140,5 @@ with DAG(dag_id='dag_fa_repasse_operacional',concurrency=25, default_args=args, 
             spark_python_task= {"python_file": "s3://etl_vendas_regiao/databricks/gold_di_tempo.py"})     
 
  #Fluxo
-	[cria_db_bronze_silver_gold,bronze_di_produto,bronze_di_regiao,bronze_fa_venda,silver_di_produto,silver_di_regiao,silver_fa_venda,\
-	gold_di_tempo,gold_di_produto,gold_di_regiao] >> gold_fa_venda
+	cria_db_bronze_silver_gold>>[bronze_di_produto,bronze_di_regiao,bronze_fa_venda]>>[silver_di_produto,silver_di_regiao,silver_fa_venda]>>\
+	[gold_di_tempo,gold_di_produto,gold_di_regiao,gold_fa_venda]
