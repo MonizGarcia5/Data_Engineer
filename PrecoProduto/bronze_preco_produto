@@ -2,8 +2,7 @@
 # Objetivo : Criar a tabela fa_preco_produto na Base de dados Bronze (Databricks)
 
 # A tabela de preco de produto tem como origem um arquivo no formato TXT (PRECO_DE_PRODUTO.TXT)
-# com as colunas organiadas de forma posicional e está armazenado no DBFS que é o sistema 
-# de arquivos Databricks.
+# com as colunas organizadas de forma posicional, armazenado no DBFS do Databricks.
 
 # O arquivo PRECO_DE_PRODUTO.CSV  contém as colunas :
 #  - CODIGO_PRODUTO
