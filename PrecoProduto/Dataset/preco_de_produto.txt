@@ -1,1 +1,34 @@
-h
+0000318978     PAPEL TOALHA LANOSCA DUPLO 230 MINIPLUS 8PCTS C/8UNID.                                               181220200000006272  
+0000318980     PAPEL TOALHA LANOSCA DUPLO 230 NORMAL 8PCTS C/8UNID.                                                 181220200000008528  
+0000318981     PAPEL TOALHA LANOSCA DUPLO 230 SUPER 8PCTS C/8UNID.                                                  181220200000014888  
+0000318976     ABSORVENTE TENA LADY MAXI NIGHT 4PCTS C/14UNID.                                                      181220200000012808  
+0000318979     ABSORVENTE TENA LADY NORMAL SLIM 4CPTS C/16UNID.                                                     181220200000007684  
+0000318982     ABSORVENTE TENA MEN LEVEL 2 6PCTS C/10UNID.                                                          181220200000014766  
+0000319161     ACTEMRA 20MG/ML SOL.DIL.INFUS.IV 1FA 20ML                                                            151220200000339072  
+0000176099     SABAO EM PO LIMPA  TUDO 15GA 1,8X25X300MM GAMMA                                                      171220200000000737  
+0000176101     SABAO EM PO LIMPA  TUDO 16GA 1,6X25X300MM GAMMA                                                      171220200000000737  
+0000176103     SABAO EM PO LIMPA  TUDO 17GA 1,5X25X300MM GAMMA                                                      171220200000000737  
+0000176105     SABAO EM PO LIMPA  TUDO/V 15GA 1,8X25X300MM GAMMA                                                    171220200000001702  
+0000176106     SABAO EM PO LIMPA  TUDO/V 16GA 1,6X25X300MM GAMMA                                                    171220200000001702  
+0000258657     SABAO EM PO LIMPA  TUDO/V 17GA 1,5X20X150MM GAMMA                                                    171220200000001702  
+0000319983     SABAO EM PO SOL AMARE BUTTONHOLE A 15GA 1,8X25X300MM                                                 171220200000001518  
+0000319984     SABAO EM PO SOL AMARE BUTTONHOLE A 16GA 1,6X25X300MM                                                 171220200000001518  
+0000319972     SABAO EM PO SOL AMARE PRO A 15GA 1,8X25X150MM                                                        171220200000000851  
+0000319973     SABAO EM PO SOL AMARE PRO A 15GA 1,8X25X300MM                                                        171220200000000851  
+0000319974     SABAO EM PO SOL AMARE PRO A 16GA 1,6X20X150MM                                                        171220200000000851  
+0000319975     SABAO EM PO SOL AMARE PRO A 16GA 1,6X25X300MM                                                        171220200000000851  
+0000319977     SABAO EM PO SOL AMARE PRO A 17GA 1,4X20X150MM                                                        171220200000000851  
+0000319978     SABAO EM PO SOL AMARE PRO A 17GA 1,4X20X300MM                                                        171220200000000851  
+0000319976     SABAO EM PO SOL AMARE PRO V 17GA 1,4X20X150MM                                                        171220200000000851  
+0000319979     SABAO EM PO SOL AMARE PRO V 17GA 1,4X20X300MM                                                        171220200000000851  
+0000176108     SABAO EM PO SOL AMARE S A 15GA 1,8X25X300MM GAMMA                                                    171220200000001474  
+0000176112     SABAO EM PO SOL AMARE S A 17GA 1,5X25X300MM GAMMA                                                    171220200000001474  
+0000176109     SABAO EM PO SOL AMARE S V 15GA 1,8X25X300MM GAMMA                                                    171220200000001474  
+0000176111     SABAO EM PO SOL AMARE S V 16GA 1,6X25X300MM GAMMA                                                    171220200000001474  
+0000176113     SABAO EM PO SOL AMARE S V 17GA 1,5X25X300MM GAMMA                                                    171220200000001474  
+0000319980     SABAO EM PO SOL AMARE SAFETY A 15GA 1,8X25X300MM                                                     171220200000001474  
+0000319981     SABAO EM PO SOL AMARE SAFETY A 16GA 1,6X25X300MM                                                     171220200000001474  
+0000319982     SABAO EM PO SOL AMARE SAFETY A 17GA 1,4X20X300MM                                                     171220200000001474  
+0000176100     SABAO EM PO SOL AMARE V 15GA 1,8X25X300MM GAMMA                                                      17122020L000000073  
+0000176102     SABAO EM PO SOL AMARE V 16GA 1,6X25X300MM GAMMA                                                      17122020L000000073  
+0000176104     SABAO EM PO SOL AMARE V 17GA 1,5X25X300MM GAMMA                                                      17122020L000000073  
