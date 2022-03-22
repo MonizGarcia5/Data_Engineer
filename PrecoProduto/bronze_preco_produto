@@ -24,7 +24,7 @@ spark = SparkSession.builder.appName("Spark and Hive")\
                                 .enableHiveSupport()\
                                 .getOrCreate()
 
-# Criar a tabela fa_preco_produto na camda Bronze (Datbricks)    
+# Criar a tabela fa_preco_produto na camada Bronze (Datbricks)    
 base_dados="db_bronze" 
 table="fa_preco_produto"
 
